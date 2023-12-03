@@ -6,22 +6,23 @@ export default function Player({ name, symbol }) {
 
 	const handleEdit = (e) => {
 		e.preventDefault();
-		setIsEditing(true);
+		setIsEditing(!isEditing);
 	};
 
 	let playerName = <span className='player-name'>{name}</span>;
-
+	// let btnCaption = "Edit";
 	if (isEditing) {
 		playerName = (
 			<span className='player-name'>
-				<input type='text' required />
+				<input type='text' required value={name} />
 			</span>
 		);
+		// btnCaption = "Save";
 	}
 
 	return (
 		<li>
-			{playerName}
+			<span className='player'>{playerName}</span>
 			<span className='player-symbol'>{symbol}</span>
 
 			<button onClick={handleEdit}>{isEditing ? 'Save' : 'Edit'}</button>
