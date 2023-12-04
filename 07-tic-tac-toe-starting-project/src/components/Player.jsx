@@ -4,9 +4,8 @@ import { useState } from 'react';
 export default function Player({ name, symbol }) {
 	const [isEditing, setIsEditing] = useState(false);
 
-	const handleEdit = (e) => {
-		e.preventDefault();
-		setIsEditing(!isEditing);
+	const handleEdit = () => {
+		setIsEditing((previousState) => !previousState);
 	};
 
 	let playerName = <span className='player-name'>{name}</span>;
