@@ -17,16 +17,16 @@ export default function AvailablePlaces({ onSelectPlace }) {
 				const places = await fetchAvailablePlaces();
 				setAvailablePlaces(places);
 				setIsFetching(false);
-				navigator.geolocation.getCurrentPosition((position) => {
-					const sortedPlaces = sortPlacesByDistance(
-						places,
-						position.coords.latitude,
-						position.coords.longitude
-					);
-					console.log(`Sorted: ${sortedPlaces}`);
-					setAvailablePlaces(sortedPlaces); // used to be setAvailablePlaces(sortedPlaces)
-					setIsFetching(false);
-				});
+				// navigator.geolocation.getCurrentPosition((position) => {
+				// 	const sortedPlaces = sortPlacesByDistance(
+				// 		places,
+				// 		position.coords.latitude,
+				// 		position.coords.longitude
+				// 	);
+				// 	console.log(`Sorted: ${sortedPlaces}`);
+				// 	setAvailablePlaces(sortedPlaces); // used to be setAvailablePlaces(sortedPlaces)
+				// 	setIsFetching(false);
+				// });
 			} catch (error) {
 				setError({
 					message:
@@ -39,16 +39,16 @@ export default function AvailablePlaces({ onSelectPlace }) {
 		fetchPlaces();
 	}, []);
 
-	if (error) {
-		console.log(error);
+	// if (error) {
+	// 	console.log(error);
 
-		return <Error title='An error occurred!' message={error.message} />;
-	}
+	// 	return <Error title='An error occurred!' message={error.message} />;
+	// }
 
 	return (
 		<Places
 			title='Available Places'
-			places={sortedPlaces}
+			places={availablePlaces}
 			isLoading={isFetching}
 			fallbackText='No places available.'
 			loadingText={'Fetching places data...'}
