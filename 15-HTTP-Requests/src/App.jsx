@@ -48,19 +48,33 @@ function App() {
 		}
 	}
 
-	const handleRemovePlace = useCallback(async function handleRemovePlace() {
-		setUserPlaces((prevPickedPlaces) =>
-			prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
-		);
+	const handleRemovePlace = useCallback(
+		async function handleRemovePlace() {
+			setUserPlaces((prevPickedPlaces) =>
+				prevPickedPlaces.filter(
+					(place) => place.id !== selectedPlace.current.id
+				)
+			);
+			try {
+				await updateUserPlaces(
+					userPlaces.filter((place) => place.id !== selectedPlace.current.id)
+				);
+			} catch (error) {
+				setUserPlaces(userPlaces);
+				setErrorUpdatingPlaces({
+					message: error.message || 'Failed to remove places',
+				});
+			}
 
-		setModalIsOpen(false);
-	}, []);
+			setModalIsOpen(false);
+		},
+		[userPlaces]
+	);
 	function handleError() {
 		setErrorUpdatingPlaces(null);
 	}
 	return (
 		<>
-			(
 			<Modal open={errorUpdatingPlaces} onClose={handleError}>
 				{errorUpdatingPlaces && (
 					<Error
@@ -70,7 +84,7 @@ function App() {
 					/>
 				)}
 			</Modal>
-			)
+
 			<Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
 				<DeleteConfirmation
 					onCancel={handleStopRemovePlace}
