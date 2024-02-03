@@ -1,13 +1,18 @@
 /** @format */
 import { useState } from 'react';
+import { transformWithEsbuild } from 'vite';
 export default function StateLogin() {
 	const [enteredValues, setEnteredValues] = useState({
 		email: '',
 		password: '',
 	});
 
-	const emailIsInvalid =
-		enteredValues.email !== '' && !enteredValues.includes('@');
+	const [didEdit, setDidEdit] = useState({
+		email: false,
+		password: false,
+	});
+
+	const emailIsInvalid = didEdit.email !== '' && !enteredValues.includes('@');
 	function handleEmailChange(event) {
 		setEnteredEmail(event.target.value);
 	}
@@ -22,6 +27,13 @@ export default function StateLogin() {
 		console.log('User password: ' + enteredPassword);
 	}
 
+	function handleInputBlur(identifier) {
+		setDidEdit((prevEdit) => ({
+			...prevEdit,
+			[identifier]: true,
+		}));
+	}
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<h2>Login</h2>
@@ -34,6 +46,7 @@ export default function StateLogin() {
 						type='email'
 						name='email'
 						onChange={handleEmailChange}
+						onBlur={() => handleInputBlur('email')}
 						value={enteredEmail}
 					/>
 				</div>
@@ -48,6 +61,7 @@ export default function StateLogin() {
 						type='password'
 						name='password'
 						onChange={handlePasswordChange}
+						onBlur={() => handleInputBlur('password')}
 						value={enteredPassword}
 					/>
 				</div>
